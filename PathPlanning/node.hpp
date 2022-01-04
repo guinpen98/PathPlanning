@@ -67,26 +67,34 @@ void mobilizeOpenNode(const std::array<std::array<int, 128>, 72>& field, std::ar
 	int p_r_cost = node[select_node_y][select_node_x - 1].getRCost();
 	if(select_node_x>0)
 		if (field[select_node_y][select_node_x - 1] == 0) {
-			node[select_node_y][select_node_x - 1].setStatus(OpenE);
-			node[select_node_y][select_node_x - 1].setRCost(p_r_cost);
-			node[select_node_y][select_node_x - 1].setParentCoord(select_node_x, select_node_y);
+			if (node[select_node_y][select_node_x - 1].getStatus() == NoneE) {
+				node[select_node_y][select_node_x - 1].setStatus(OpenE);
+				node[select_node_y][select_node_x - 1].setRCost(p_r_cost);
+				node[select_node_y][select_node_x - 1].setParentCoord(select_node_x, select_node_y);
+			}
 		}
 	if (select_node_x < 1280)
 		if (field[select_node_y][select_node_x + 1] == 0) {
-			node[select_node_y][select_node_x + 1].setStatus(OpenE);
-			node[select_node_y][select_node_x + 1].setRCost(p_r_cost);
-			node[select_node_y][select_node_x + 1].setParentCoord(select_node_x, select_node_y);
+			if(node[select_node_y][select_node_x + 1].getStatus() == NoneE){
+				node[select_node_y][select_node_x + 1].setStatus(OpenE);
+				node[select_node_y][select_node_x + 1].setRCost(p_r_cost);
+				node[select_node_y][select_node_x + 1].setParentCoord(select_node_x, select_node_y);
+			}
 		}
 	if (select_node_y > 0)
 		if (field[select_node_y - 1][select_node_x] == 0) {
-			node[select_node_y - 1][select_node_x].setStatus(OpenE);
-			node[select_node_y - 1][select_node_x].setRCost(p_r_cost);
-			node[select_node_y - 1][select_node_x].setParentCoord(select_node_x, select_node_y);
+			if(node[select_node_y - 1][select_node_x].getStatus() == NoneE){
+				node[select_node_y - 1][select_node_x].setStatus(OpenE);
+				node[select_node_y - 1][select_node_x].setRCost(p_r_cost);
+				node[select_node_y - 1][select_node_x].setParentCoord(select_node_x, select_node_y);
+			}
 		}
 	if (select_node_y < 1280)
 		if (field[select_node_y + 1][select_node_x] == 0) {
-			node[select_node_y + 1][select_node_x].setStatus(OpenE);
-			node[select_node_y + 1][select_node_x].setRCost(p_r_cost);
-			node[select_node_y + 1][select_node_x].setParentCoord(select_node_x, select_node_y);
+			if(node[select_node_y + 1][select_node_x].getStatus() == NoneE){
+				node[select_node_y + 1][select_node_x].setStatus(OpenE);
+				node[select_node_y + 1][select_node_x].setRCost(p_r_cost);
+				node[select_node_y + 1][select_node_x].setParentCoord(select_node_x, select_node_y);
+			}
 		}
 };
