@@ -22,8 +22,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 }
 void  setCoord(int& x, int& y,const std::array<std::array<int, 128>, 72>& field) {
     constexpr int MIN = 0;
-    constexpr int xMAX = 128;
-    constexpr int yMAX = 72;
+    constexpr int xMAX = 127;
+    constexpr int yMAX = 71;
     std::random_device rd;
     std::mt19937 eng(rd());
     std::uniform_int_distribution<int> x_rd(MIN, xMAX);
@@ -45,7 +45,7 @@ void Main() {
     //確率
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::bernoulli_distribution uid(0.1);
+    std::bernoulli_distribution uid(0.3);
     //地形の初期化
     for (auto& f_array : field)
         for (auto& f : f_array) f = uid(eng) ? 1 : 0;
