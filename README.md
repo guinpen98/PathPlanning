@@ -1,6 +1,7 @@
 # PathPlanning
 ## overview
 This is a pathfinding simulator using the A* algorithm.
+![capture](https://github.com/guinpen98/PathPlanning/blob/master/capture.gif?raw=true)
 ## usage
 It uses an external library called the [DxLib](https://dxlib.xsrv.jp/).
 
