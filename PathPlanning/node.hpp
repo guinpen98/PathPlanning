@@ -64,7 +64,7 @@ void selectNode(const std::array<std::array<Node, 128>, 72>& node,int& select_no
 	}
 };
 void mobilizeOpenNode(const std::array<std::array<int, 128>, 72>& field, std::array<std::array<Node, 128>, 72>& node, const int& select_node_x, const int& select_node_y) {
-	int p_r_cost = node[select_node_y][select_node_x - 1].getRCost();
+	int p_r_cost = node[select_node_y][select_node_x].getRCost();
 	if(select_node_x>0)
 		if (field[select_node_y][select_node_x - 1] == 0) {
 			if (node[select_node_y][select_node_x - 1].getStatus() == NoneE) {

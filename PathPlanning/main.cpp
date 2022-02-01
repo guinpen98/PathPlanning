@@ -45,7 +45,7 @@ void Main() {
     //確率
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::bernoulli_distribution uid(0.3);
+    std::bernoulli_distribution uid(0.2);
     //地形の初期化
     for (auto& f_array : field)
         for (auto& f : f_array) f = uid(eng) ? 1 : 0;
