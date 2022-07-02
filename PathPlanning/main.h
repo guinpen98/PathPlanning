@@ -10,7 +10,7 @@ namespace pathPlanning {
         bool update();
     }
 
-    void  setCoord(int& x, int& y, const std::array<std::array<int, 128>, 72>& field);
+    void  setCoord(int& x, int& y, const field_vector& field);
 
     void main();
 }
