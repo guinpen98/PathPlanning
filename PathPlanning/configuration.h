@@ -9,8 +9,7 @@ namespace pathPlanning {
 
 
 	using field_type = int;
-	using field_array = std::array<field_type, width>;
-	using field_vector = std::unique_ptr<std::array<field_array, height>>;
+	using field_array = std::unique_ptr<field_type[]>;
 }
 
 #endif // !PATH_PLANNING_CONFIGURATION_H

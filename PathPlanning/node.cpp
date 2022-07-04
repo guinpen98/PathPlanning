@@ -28,7 +28,7 @@ namespace pathPlanning {
 		return r_cost + h_cost;
 	}
 
-	void selectNode(const std::unique_ptr<Node[]>& node, int& select_node_x, int& select_node_y) {
+	void selectNode(const node_array& node, int& select_node_x, int& select_node_y) {
 		int min_cost = (std::numeric_limits<int>::max)();
 		int min_score = (std::numeric_limits<int>::max)();
 		for (int y = 0; y < height; y++) {
@@ -48,29 +48,18 @@ namespace pathPlanning {
 			}
 		}
 	}
-	void mobilizeOpenNode(const field_vector& field, std::unique_ptr<Node[]>& nodes, const int& select_node_x, const int& select_node_y) {
+	void mobilizeOpenNode(const field_array& field, node_array& nodes, const int& select_node_x, const int& select_node_y) {
 		const int p_r_cost = nodes[select_node_y * width + select_node_x].getRCost();
-		auto open_node = [=](Node& node) {
-			if (node.getStatus() != NoneE) return;
-			node.setStatus(OpenE);
-			node.setRCost(p_r_cost);
-			node.setParentCoord(select_node_x, select_node_y);
+		auto open_node = [&](int n) {
+			if (field[n] != 0) return;
+			if (nodes[n].getStatus() != NoneE) return;
+			nodes[n].setStatus(OpenE);
+			nodes[n].setRCost(p_r_cost);
+			nodes[n].setParentCoord(select_node_x, select_node_y);
 		};
-		if (select_node_x > 0)
-			if ((*field)[select_node_y][select_node_x - 1] == 0) {
-				open_node(nodes[select_node_y * width + select_node_x - 1]);
-			}
-		if (select_node_x < 127)
-			if ((*field)[select_node_y][select_node_x + 1] == 0) {
-				open_node(nodes[select_node_y * width + select_node_x + 1]);
-			}
-		if (select_node_y > 0)
-			if ((*field)[select_node_y - 1][select_node_x] == 0) {
-				open_node(nodes[(select_node_y - 1) * width + select_node_x]);
-			}
-		if (select_node_y < 71)
-			if ((*field)[select_node_y + 1][select_node_x] == 0) {
-				open_node(nodes[(select_node_y + 1) * width + select_node_x]);
-			}
+		if (select_node_x > 0) open_node(select_node_y * width + select_node_x - 1);
+		if (select_node_x < width - 1) open_node(select_node_y * width + select_node_x + 1);
+		if (select_node_y > 0) open_node((select_node_y - 1) * width + select_node_x);
+		if (select_node_y < height - 1) open_node((select_node_y + 1) * width + select_node_x);
 	}
 }

@@ -4,17 +4,15 @@ namespace pathPlanning {
     
     bool system::update() { return (DxLib::ScreenFlip() != -1 && DxLib::ClearDrawScreen() != -1 && DxLib::ProcessMessage() != -1); }
 
-    void  setCoord(int& x, int& y, const field_vector&field) {
-        constexpr int MIN = 0;
-        constexpr int xMAX = 127;
-        constexpr int yMAX = 71;
+    void  setCoord(int& x, int& y, const field_array&field) {
+        constexpr int min = 0;
         std::random_device rd;
         std::mt19937 eng(rd());
-        std::uniform_int_distribution<int> x_rd(MIN, xMAX);
-        std::uniform_int_distribution<int> y_rd(MIN, yMAX);
+        std::uniform_int_distribution<int> x_rd(min, width - 1);
+        std::uniform_int_distribution<int> y_rd(min, height - 1);
         x = x_rd(eng);
         y = y_rd(eng);
-        while (( * field)[y][x] == 1) {
+        while (field[y * width + x] == 1) {
             x = x_rd(eng);
             y = y_rd(eng);
         }
@@ -22,7 +20,7 @@ namespace pathPlanning {
 
     void main() {
         //地形の二次元配列
-        field_vector field = std::make_unique<std::array<field_array, 72>>();
+        field_array field = std::make_unique<field_type[]>(width * height);
         //1マスあたりのピクセル数
         constexpr int square_pixel = 10;
         //確率
@@ -30,8 +28,8 @@ namespace pathPlanning {
         std::mt19937 eng(rd());
         std::bernoulli_distribution uid(0.2);
         //地形の初期化
-        for (auto& f_array : *field)
-            for (auto& f : f_array) f = uid(eng) ? 1 : 0;
+        for (int y = 0; y < height; ++y)
+            for (int x = 0; x < width; ++x) field[y * width + x] = uid(eng) ? 1 : 0;
         //アクターの座標
         int actor_x = 0;
         int actor_y = 0;
@@ -44,13 +42,13 @@ namespace pathPlanning {
         while (actor_x == distination_x && actor_y == distination_y) setCoord(distination_x, distination_y, field);
         //ノードの配列
         //node_vector node = std::make_unique<std::array<node_array, 72>>();
-        std::unique_ptr<Node[]> node = std::make_unique<Node[]>(width*height);
+        std::unique_ptr<Node[]> nodes = std::make_unique<Node[]>(width * height);
         //各ノードのヒューリスティックコストの設定
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
-                node[y*width+x].setHCost(x - distination_x, y - distination_y);
+                nodes[y*width+x].setHCost(x - distination_x, y - distination_y);
         //アクターの位置のノードをOpenにする
-        node[actor_y*width+actor_x].setStatus(OpenE);
+        nodes[actor_y*width+actor_x].setStatus(OpenE);
         //選択されたノードの座標
         int select_node_x = -1;
         int select_node_y = -1;
@@ -59,18 +57,18 @@ namespace pathPlanning {
         while (system::update()) {
             //探索が終了してない場合
             if (!(select_node_x == distination_x) || !(select_node_y == distination_y)) {
-                selectNode(node, select_node_x, select_node_y);
-                mobilizeOpenNode(field, node, select_node_x, select_node_y);
-                node[select_node_y*width+select_node_x].setStatus(ClosedE);
+                selectNode(nodes, select_node_x, select_node_y);
+                mobilizeOpenNode(field, nodes, select_node_x, select_node_y);
+                nodes[select_node_y * width + select_node_x].setStatus(ClosedE);
             }
 
             //一定期間の描画
             for (int i = 0; i < 50; i++) {
                 //地形の描画
-                for (std::size_t y = 0; y < field -> size(); y++) {
-                    for (std::size_t x = 0; x < (*field)[y].size(); x++) {
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
                         unsigned int cr = GetColor(0, 0, 0);
-                        switch ((*field)[y][x])
+                        switch (field[y * width + x])
                         {
                         case 1:
                             cr = GetColor(255, 255, 255);
