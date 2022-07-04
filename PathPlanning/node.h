@@ -35,7 +35,7 @@ namespace pathPlanning {
 	using node_array = std::array<Node, 128>;
 	using node_vector = std::unique_ptr<std::array<node_array, 72>>;
 
-	void selectNode(const node_vector& node, int& select_node_x, int& select_node_y);
-	void mobilizeOpenNode(const field_vector& field, node_vector& node, const int& select_node_x, const int& select_node_y);
+	void selectNode(const std::unique_ptr<Node[]>& node, int& select_node_x, int& select_node_y);
+	void mobilizeOpenNode(const field_vector& field, std::unique_ptr<Node[]>& node, const int& select_node_x, const int& select_node_y);
 }
 #endif // !PATH_PLANNING_NODE_H

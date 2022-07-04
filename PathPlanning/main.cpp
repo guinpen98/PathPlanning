@@ -43,13 +43,14 @@ namespace pathPlanning {
         //アクタが目的地にいるときに目的地を変更する
         while (actor_x == distination_x && actor_y == distination_y) setCoord(distination_x, distination_y, field);
         //ノードの配列
-        node_vector node = std::make_unique<std::array<node_array, 72>>();
+        //node_vector node = std::make_unique<std::array<node_array, 72>>();
+        std::unique_ptr<Node[]> node = std::make_unique<Node[]>(width*height);
         //各ノードのヒューリスティックコストの設定
-        for (std::size_t y = 0; y < node -> size(); y++)
-            for (std::size_t x = 0; x < (*node)[y].size(); x++)
-                (*node)[y][x].setHCost(x - distination_x, y - distination_y);
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                node[y*width+x].setHCost(x - distination_x, y - distination_y);
         //アクターの位置のノードをOpenにする
-        (*node)[actor_y][actor_x].setStatus(OpenE);
+        node[actor_y*width+actor_x].setStatus(OpenE);
         //選択されたノードの座標
         int select_node_x = -1;
         int select_node_y = -1;
@@ -60,11 +61,11 @@ namespace pathPlanning {
             if (!(select_node_x == distination_x) || !(select_node_y == distination_y)) {
                 selectNode(node, select_node_x, select_node_y);
                 mobilizeOpenNode(field, node, select_node_x, select_node_y);
-                (*node)[select_node_y][select_node_x].setStatus(ClosedE);
+                node[select_node_y*width+select_node_x].setStatus(ClosedE);
             }
 
             //一定期間の描画
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 50; i++) {
                 //地形の描画
                 for (std::size_t y = 0; y < field -> size(); y++) {
                     for (std::size_t x = 0; x < (*field)[y].size(); x++) {
@@ -80,7 +81,7 @@ namespace pathPlanning {
                         default:
                             break;
                         }
-                        DrawBox(x * square_pixel, y * square_pixel, (x + 1) * square_pixel, (y + 1) * square_pixel, cr, TRUE);
+                        DrawBox((int)x * square_pixel, (int)y * square_pixel, int(x + 1) * square_pixel, int(y + 1) * square_pixel, cr, TRUE);
                     }
                 }
                 //目的地の描画
