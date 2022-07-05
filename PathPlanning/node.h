@@ -5,9 +5,7 @@
 #include<memory>
 #include"configuration.h"
 
-namespace pathPlanning {
-
-
+namespace path_planning {
 	enum NodeStatusE {
 		NoneE
 		, OpenE

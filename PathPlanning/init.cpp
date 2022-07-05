@@ -8,6 +8,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     DxLib::SetMainWindowText("PathPlanning");
     if (DxLib::DxLib_Init() == -1) return -1;
     DxLib::SetDrawScreen(DX_SCREEN_BACK);
-    pathPlanning::main();
+    path_planning::main();
     return DxLib::DxLib_End();
 }

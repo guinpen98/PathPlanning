@@ -3,7 +3,7 @@
 #include<array>
 #include<memory>
 
-namespace pathPlanning {
+namespace path_planning {
 	constexpr int width = 128;
 	constexpr int height = 72;
 

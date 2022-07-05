@@ -154,11 +154,13 @@
     <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="node_array.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configuration.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="node_array.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

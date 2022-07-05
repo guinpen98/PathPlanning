@@ -1,6 +1,6 @@
 ﻿#include "main.h"
 
-namespace pathPlanning {
+namespace path_planning {
     
     bool system::update() { return (DxLib::ScreenFlip() != -1 && DxLib::ClearDrawScreen() != -1 && DxLib::ProcessMessage() != -1); }
 

@@ -1,6 +1,6 @@
 #include "node.h"
 
-namespace pathPlanning {
+namespace path_planning {
 	void Node::setStatus(NodeStatusE new_status) {
 		node_status = new_status;
 	}
@@ -51,8 +51,8 @@ namespace pathPlanning {
 	void mobilizeOpenNode(const field_array& field, node_array& nodes, const int& select_node_x, const int& select_node_y) {
 		const int p_r_cost = nodes[select_node_y * width + select_node_x].getRCost();
 		auto open_node = [&](int n) {
-			if (field[n] != 0) return;
-			if (nodes[n].getStatus() != NoneE) return;
+			if (field[n] != 0) return; //0‚Í‘I‚×‚È‚¢
+			if (nodes[n].getStatus() != NoneE) return; //Šù‚ÉŠJ‚©‚ê‚Ä‚¢‚é‚à‚Ì‚ÍœŠO
 			nodes[n].setStatus(OpenE);
 			nodes[n].setRCost(p_r_cost);
 			nodes[n].setParentCoord(select_node_x, select_node_y);
